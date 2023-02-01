@@ -11,7 +11,7 @@ exports.postCreateCube = async (req, res) => {
 
     let cube = new Cube({name, description, imageUrl, difficultyLevel});
 
-    await Cube.save(cube);
+    await cube.save();
 
     res.redirect('/');
 }
