@@ -8,7 +8,7 @@ exports.getCreateCube = (req, res) => {
 
 exports.getAttachAccessory = async (req, res) => {
     const cube = await Cube.findById(req.params.cubeId).lean();
-    const accessories = await Accessory.find().lean();
+    const accessories = await Accessory.find({ _id: { $nin: cube.accessories } }).lean();
 
     res.render('cube/attach', { cube, accessories });
 };
