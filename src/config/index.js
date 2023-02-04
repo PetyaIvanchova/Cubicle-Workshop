@@ -4,7 +4,7 @@ const config = {
         DB_URI: 'mongodb://127.0.0.1:27017/cubicle'
     },
     dev: {
-        PORT: 5000,
+        PORT: 5001,
         DB_URI: 'mongodb://127.0.0.1:27017/cubicle'
     }
 };
