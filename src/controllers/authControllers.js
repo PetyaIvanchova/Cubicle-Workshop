@@ -32,13 +32,13 @@ router.post('/register', async (req,res) => {
        return res.redirect('/404');
     }
 
-    const existUser = await authService.getUserByUsername({username});
+    const existUser = await authService.getUserByUsername(username);
 
     if(existUser){
         return res.redirect('/404');
     }
 
-    const user = await authService.register({username, password});
+    const user = await authService.register(username, password);
 
     res.redirect('/login');
 

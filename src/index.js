@@ -13,8 +13,8 @@ setupViewEngine(app);
 
 app.use(express.static('src/public'));
 app.use(express.urlencoded({extended: false}));
-app.use(authMiddleware.authentication);
 app.use(cookieParse());
+app.use(authMiddleware.authentication);
 app.use(routes);
 
 
