@@ -11,6 +11,10 @@ exports.getAttachAccessory = async (req, res) => {
     const cube = await Cube.findById(req.params.cubeId).lean();
     const accessories = await Accessory.find({ _id: { $nin: cube.accessories } }).lean();
 
+    if (!cubeUtils.isOwner(req.user, cube)) {
+        return res.redirect('/404');
+    }
+    
     res.render('cube/attach', { cube, accessories });
 };
 
@@ -57,7 +61,13 @@ exports.postCreateCube = async (req, res) => {
     //req.body is the db
     const {name, description, imageUrl, difficultyLevel } = req.body;
 
-    let cube = new Cube({name, description, imageUrl, difficultyLevel});
+    let cube = new Cube({
+        name,
+        description,
+        imageUrl,
+        difficultyLevel,
+        owner: req.user._id
+    });
 
     await cube.save();
 
@@ -65,8 +75,10 @@ exports.postCreateCube = async (req, res) => {
 }
 
 exports.getDetails = async (req, res) => {
-    
-   const cube = await Cube.findById(req.params.cubeId).populate('accessories').lean();
+
+    const cube = await Cube.findById(req.params.cubeId)
+        .populate('accessories')
+        .lean();
 
    if(!cube){
     return res.redirect('/404');
