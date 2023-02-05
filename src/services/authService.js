@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const jwt = require('../lib/jsonwebtoken');
+const config = require('../config');
 
 exports.getUserByUsername = (username) => User.findOne({username});
 
@@ -12,5 +14,8 @@ exports.login = async (username, password) => {
         throw `Error`
     };
 
-    return user;
+    const payload = {username: user.username};
+    const token = await jwt.sign(payload, config.SECRET);
+
+    return token;
 }
